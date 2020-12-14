@@ -1,0 +1,24 @@
+{
+  "name": "figma-to-fit-text",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.mjs",
+  "scripts": {
+    "start": "node index.mjs",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hyakt/figma-to-fit-text.git"
+  },
+  "author": "hyakt",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hyakt/figma-to-fit-text/issues"
+  },
+  "homepage": "https://github.com/hyakt/figma-to-fit-text#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "figma-js": "^1.13.0"
+  }
+}
