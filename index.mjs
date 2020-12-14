@@ -40,7 +40,7 @@ const result = textDocument.children.map((group) => ({
     const relativeY = Math.abs(documentY - y)
     return `<FitText id='${FITTEXT_PREFIX_ID || ''}${
       c.name
-    } x={${relativeX}} y={${relativeY}} width={${width}} height={${height}} fontSize={${
+    }' x={${relativeX}} y={${relativeY}} width={${width}} height={${height}} fontSize={${
       fontSize || '14'
     }} vAlign='${vAlign(textAlignVertical)}' hAlign='${hAlign(
       textAlignHorizontal
