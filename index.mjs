@@ -31,39 +31,60 @@ const vAlign = (textAlignVertical) => {
 const hAlign = (textAlignHorizontal) =>
   textAlignHorizontal?.toLowerCase() || 'left'
 
-const result = textDocument.children.map((group) => ({
-  name: group.name,
-  value: group.children.map((c) => {
-    const { fontSize, textAlignHorizontal, textAlignVertical } = c.style || {}
-    const { x, y, width, height } = c.absoluteBoundingBox
-    const relativeX = Math.abs(documentX - x)
-    const relativeY = Math.abs(documentY - y)
-    return `<FitText id='${FITTEXT_PREFIX_ID || ''}${
-      c.name
-    }' x={${relativeX}} y={${relativeY}} width={${width}} height={${height}} fontSize={${
-      fontSize || '14'
-    }} vAlign='${vAlign(textAlignVertical)}' hAlign='${hAlign(
-      textAlignHorizontal
-    )}'>${c.name}</FitText>`
-  })
-}))
+const hasChildren = (c) => Boolean(c.children)
+
+const textDocumentFunction = (c) => {
+  if (hasChildren(c)) {
+    return {
+      name: c.name,
+      value: c.children.map(textDocumentFunction)
+    }
+  }
+
+  const { fontSize, textAlignHorizontal, textAlignVertical } = c.style || {}
+  const { x, y, width, height } = c.absoluteBoundingBox
+  const relativeX = Math.abs(documentX - x)
+  const relativeY = Math.abs(documentY - y)
+  const value = `<FitText id='${FITTEXT_PREFIX_ID || ''}${
+    c.name
+  }' x={${relativeX}} y={${relativeY}} width={${width}} height={${height}} fontSize={${
+    fontSize || '14'
+  }} vAlign='${vAlign(textAlignVertical)}' hAlign='${hAlign(
+    textAlignHorizontal
+  )}'>${c.name}</FitText>`
+
+  return {
+    name: c.name,
+    value
+  }
+}
+
+const result = textDocument.children.map(textDocumentFunction)
 
 let text = ''
-result.forEach((group) => {
-  text += `${group.name}:`
+const resultFunction = (c) => {
+  text += `${c.name}:`
   text += '\n'
-  group.value.forEach((e) => {
-    text += e
+  if (Array.isArray(c.value)) {
+    c.value.forEach(resultFunction)
     text += '\n'
-  })
-  text += '\n'
-})
+  } else {
+    text += c.value
+    text += '\n'
+  }
+}
+
+result.forEach(resultFunction)
 
 try {
   if (!fs.existsSync('./target')) {
     fs.mkdirSync('./target')
   }
   fs.writeFileSync('./target/result.txt', text)
+  fs.writeFileSync('./target/result.json', JSON.stringify(result, null, 2))
 } catch (e) {
   console.error(e.message)
 }
+
+console.log('Done')
+console.log('Check ./target/result.txt')
