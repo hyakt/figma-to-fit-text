@@ -7,4 +7,4 @@
 1. `cp .env-example .env`
 2. Write `.env` file. See: https://www.figma.com/developers/api#access-tokens
 3. `npm start`
-4. `less ./target/result.txt`
+4. `less ./dist/result.txt`
