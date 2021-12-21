@@ -19,8 +19,6 @@ const document = file.data.nodes[NODE_ID].document
 const documentX = document.absoluteBoundingBox.x
 const documentY = document.absoluteBoundingBox.y
 
-const textDocument = document.children.find((c) => c.name === 'Text')
-
 const vAlign = (textAlignVertical) => {
   if (textAlignVertical === 'TOP') return 'top'
   if (textAlignVertical === 'CENTER') return 'middle'
@@ -59,7 +57,7 @@ const textDocumentFunction = (c) => {
   }
 }
 
-const result = textDocument.children.map(textDocumentFunction)
+const result = document.children.map(textDocumentFunction)
 
 let text = ''
 const resultFunction = (c) => {
@@ -77,14 +75,14 @@ const resultFunction = (c) => {
 result.forEach(resultFunction)
 
 try {
-  if (!fs.existsSync('./target')) {
-    fs.mkdirSync('./target')
+  if (!fs.existsSync('./dist')) {
+    fs.mkdirSync('./dist')
   }
-  fs.writeFileSync('./target/result.txt', text)
-  fs.writeFileSync('./target/result.json', JSON.stringify(result, null, 2))
+  fs.writeFileSync('./dist/result.txt', text)
+  fs.writeFileSync('./dist/result.json', JSON.stringify(result, null, 2))
 } catch (e) {
   console.error(e.message)
 }
 
 console.log('Done')
-console.log('Check ./target/result.txt')
+console.log('Check ./dist/result.txt')
