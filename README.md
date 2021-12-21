@@ -1,7 +1,7 @@
 # figma-to-fit-text
 
 ## Requirement
-- node v15 
+- node v15 or higher
 
 ## How to use
 1. `cp .env-example .env`
