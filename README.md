@@ -1,3 +1,5 @@
+# 会社のリポジトリの方に移管しました
+
 # figma-to-fit-text
 
 ## Requirement
